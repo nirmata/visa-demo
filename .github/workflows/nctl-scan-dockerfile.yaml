@@ -51,6 +51,6 @@ jobs:
           chmod +x nctl
 
       - name: NCTL Scan - Dockerfile
-        run: ./nctl analyze git-repo --policies ./policy/ --publish --publish-url https://devtest2.nirmata.co/policies/api/policyReportResult
+        run: ./nctl scan git-repo --policies ./policy/ --publish
   
       - run: echo "🍏 This job's status is ${{ job.status }}."
