@@ -1,1 +1,1 @@
-# Springboot example
+# Example Repository
