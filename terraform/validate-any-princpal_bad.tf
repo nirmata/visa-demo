@@ -1,24 +1,7 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.16"
-    }
-  }
 
-  required_version = ">= 1.2.0"
-}
-
-provider "aws" {
-  region = "us-west-2"
-}
-
-resource "aws_s3_bucket" "test_bucket" {
-  bucket = "test-bucket-nitish-demo"
-}
 
 resource "aws_s3_bucket_public_access_block" "example" {
-  bucket = aws_s3_bucket.test_bucket.id
+  bucket = aws_s3_bucket.example.id
 
   block_public_acls       = false
   block_public_policy     = false
@@ -27,7 +10,7 @@ resource "aws_s3_bucket_public_access_block" "example" {
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
-  bucket = aws_s3_bucket.test_bucket.id
+  bucket = aws_s3_bucket.example.id
 
   policy = <<EOF
 {

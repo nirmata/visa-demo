@@ -1,17 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.16"
-    }
-  }
-
-  required_version = ">= 1.2.0"
-}
-
-provider "aws" {
-  region = "us-west-2"
-  }
 
 resource "aws_cloudtrail" "example" {
   depends_on = [aws_s3_bucket_policy.example]
@@ -23,10 +9,6 @@ resource "aws_cloudtrail" "example" {
   enable_logging = false # optional field
 }
 
-resource "aws_s3_bucket" "example" {
-  bucket        = "tf-test-trail"
-  force_destroy = true
-}
 
 data "aws_iam_policy_document" "example" {
   statement {

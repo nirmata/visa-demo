@@ -1,11 +1,4 @@
-provider "aws" {
-  region = "eu-west-1"
-}
 
-provider "aws" {
-  alias  = "central"
-  region = "eu-central-1"
-}
 
 data "aws_iam_policy_document" "assume_role" {
   statement {
@@ -34,7 +27,7 @@ data "aws_iam_policy_document" "replication" {
       "s3:ListBucket",
     ]
 
-    resources = [aws_s3_bucket.source.arn]
+    resources = [aws_s3_bucket.example.arn]
   }
 
   statement {
@@ -46,7 +39,7 @@ data "aws_iam_policy_document" "replication" {
       "s3:GetObjectVersionTagging",
     ]
 
-    resources = ["${aws_s3_bucket.source.arn}/*"]
+    resources = ["${aws_s3_bucket.example.arn}/*"]
   }
 
   statement {
@@ -57,7 +50,7 @@ data "aws_iam_policy_document" "replication" {
       "s3:ReplicateTags",
     ]
 
-    resources = ["${aws_s3_bucket.destination.arn}/*"]
+    resources = ["${aws_s3_bucket.example.arn}/*"]
   }
 }
 
@@ -71,55 +64,31 @@ resource "aws_iam_role_policy_attachment" "replication" {
   policy_arn = aws_iam_policy.replication.arn
 }
 
-resource "aws_s3_bucket" "destination" {
-  bucket = "tf-test-bucket-destination-nitish-12345"
-}
 
-resource "aws_s3_bucket_versioning" "destination" {
-  bucket = aws_s3_bucket.destination.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
+# resource "aws_s3_bucket_replication_configuration" "replication" {
+#   provider = aws.central
+#   # Must have bucket versioning enabled first
+#   depends_on = [aws_s3_bucket_versioning.source]
 
-resource "aws_s3_bucket" "source" {
-  provider = aws.central
-  bucket   = "tf-test-bucket-source-nitish-12345"
-}
+#   role   = aws_iam_role.replication.arn
+#   bucket = aws_s3_bucket.source.id
 
-resource "aws_s3_bucket_versioning" "source" {
-  provider = aws.central
+#   rule {
+#     id = "foobar"
 
-  bucket = aws_s3_bucket.source.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
+#     filter {
+#       prefix = "foo"
+#     }
 
-resource "aws_s3_bucket_replication_configuration" "replication" {
-  provider = aws.central
-  # Must have bucket versioning enabled first
-  depends_on = [aws_s3_bucket_versioning.source]
+#     status = "Disabled"
 
-  role   = aws_iam_role.replication.arn
-  bucket = aws_s3_bucket.source.id
-
-  rule {
-    id = "foobar"
-
-    filter {
-      prefix = "foo"
-    }
-
-    status = "Disabled"
-
-    destination {
-      bucket        = aws_s3_bucket.destination.arn
-      storage_class = "STANDARD"
-    }
+#     destination {
+#       bucket        = aws_s3_bucket.destination.arn
+#       storage_class = "STANDARD"
+#     }
     
-    delete_marker_replication {
-      status = "Enabled"
-    }
-  }
-}
+#     delete_marker_replication {
+#       status = "Enabled"
+#     }
+#   }
+# }
