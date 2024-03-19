@@ -10,6 +10,7 @@ on:
 
 env:
   NIRMATA_API_KEY: ${{secrets.NIRMATA_API_KEY}}
+  NIRMATA_URL: ${{secrets.NIRMATA_URL}}
 
 
 jobs:
