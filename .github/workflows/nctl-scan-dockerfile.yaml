@@ -9,8 +9,8 @@ on:
       - "main"
 
 env:
-  NIRMATA_API_KEY: ${{vars.NIRMATA_API_KEY}}
-  NIRMATA_URL: ${{vars.NIRMATA_URL}}
+  NIRMATA_API_KEY: ${{secrets.NIRMATA_API_KEY}}
+  NIRMATA_URL: ${{secrets.NIRMATA_URL}}
 
 
 jobs:
