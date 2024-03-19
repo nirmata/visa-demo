@@ -1,4 +1,4 @@
-name: NCTL Scan Dockerfile Demo
+name: NCTL Scan Pipeline Demo
 run-name: ${{ github.actor }} has triggered Scan Action 🚀
 on:
   pull_request:
@@ -28,15 +28,6 @@ jobs:
           #!/bin/bash
 
           shopt -s expand_aliases
-
-          if [ -z "$NO_COLOR" ]; then
-            alias log_info="echo -e \"\033[1;32mINFO\033[0m:\""
-            alias log_error="echo -e \"\033[1;31mERROR\033[0m:\""
-          else
-            alias log_info="echo \"INFO:\""
-            alias log_error="echo \"ERROR:\""
-          fi
-
           set -e
 
           # Determine the download URL based on the release version
@@ -52,6 +43,6 @@ jobs:
           chmod +x nctl
 
       - name: NCTL Scan - Dockerfile
-        run: ./nctl scan git-repo --policies ./policy/ --publish --debug
+        run: ./nctl scan git-repo --policies ./policy/
   
       - run: echo "🍏 This job's status is ${{ job.status }}."
