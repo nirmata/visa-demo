@@ -48,7 +48,7 @@ jobs:
           log_info "Unzipping nctl..."
           unzip -q nctl.zip
 
-          log_info "Making nctl executable...."
+          log_info "Making nctl executable..."
           chmod +x nctl
 
       - name: NCTL Scan - Dockerfile
